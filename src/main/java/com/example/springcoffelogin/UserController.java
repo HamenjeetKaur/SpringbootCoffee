@@ -23,7 +23,7 @@ public class UserController {
         User user = userRepository.findByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
-            return "redirect:/dashboard";
+            return "redirect:/cart/dashboard";
         } else {
             model.addAttribute("error", "Invalid email or password");
             return "index";
@@ -41,18 +41,6 @@ public class UserController {
         return "signup";
     }
 
-
-
-    @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        if (user != null) {
-            model.addAttribute("user", user);
-            return "dashboard";
-        } else {
-            return "redirect:/";
-        }
-    }
 
 
     @GetMapping("/cart")

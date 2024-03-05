@@ -1,11 +1,10 @@
       body {
-            background-image: url('/static/back.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+              background-color: #d2b48c;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center;
+              color: #d2b48c;
+          }
 
 
       .container {

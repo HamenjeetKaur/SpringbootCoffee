@@ -7,9 +7,9 @@
   <title>Dashboard</title>
   <!-- Include Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet"  th:href="@{/style.css}" />
-  <!-- Include Bootstrap JS and Popper.js (for dropdowns) -->
+  <link rel="stylesheet"  th:href="@{/pay.css}" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
 
@@ -23,13 +23,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/dashboard">Home</a>
+          <a class="nav-link" href="/cart/dashboard">Home</a>
         </li>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/cart">Cart</a>
+            <a class="nav-link active" aria-current="page" href="/cart/viewcart">Cart:<span th:text="${totalQuantity}"></span></a>
           </li>
-          <form action="" method="POST">
+          <form action="/cart/clear" method="POST">
             <button type="submit" name="del" class="">Clear Cart</button>
           </form>
         </ul>
@@ -57,12 +57,22 @@
   <tr th:each="item, index : ${cartItems}">
     <th th:text="${index.count}" scope="row"></th>
     <td><img th:src="@{'/' + ${item.image}}" class= "c-img" alt=""></td>
-    <td th:text="${item.name}"></td>
-    <td th:text="${item.price} +' CAD'"></td>
-    <td><button type="submit" name="rem" class="btn-info"> - </button>
-      <input type="hidden" name="quantity" value="1">
-      <button type="submit" name="add" class="btn-info"> + </button></td>
-    <td><span th:text="${item.price * item.quantity} + ' CAD'"></span></td>
+    <td th:text="${item.p_name}"></td>
+    <td th:text="${item.pp} +' CAD'"></td>
+    <td>
+      <div class="btn-group" role="group" aria-label="Quantity">
+        <form action="/cart/decrease" method="POST" class="d-inline">
+          <input type="hidden" name="index" th:value="${index.index}" />
+          <button type="submit" class="btn btn-sm btn-outline-primary">-</button>
+        </form>
+        <span th:text="${item.quantity}"></span>
+        <form action="/cart/increase" method="POST" class="d-inline">
+          <input type="hidden" name="index" th:value="${index.index}" />
+          <button type="submit" class="btn btn-sm btn-outline-primary">+</button>
+        </form>
+      </div>
+    </td>
+    <td><span th:text="${item.pp * item.quantity} + ' CAD'"></span></td>
   </tr>
   </tbody>
 
@@ -80,6 +90,11 @@
 
 </table>
 
+<div th:if="${totalQuantity > 0}">
+  <form action="/cart/pay" method="POST">
+    <button type="submit" class="btn btn-primary">Pay Now</button>
+  </form>
+</div>
 
 
 
